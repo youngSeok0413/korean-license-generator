@@ -38,6 +38,8 @@ def image_augmentation(img, ang_range=6, shear_range=3, trans_range=3):
     blur_value = random.randint(0,5) * 2 + 1
     img = cv2.blur(img,(blur_value, blur_value))
 
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
     return img
 
 class ImageGenerator:
@@ -56,7 +58,7 @@ class ImageGenerator:
         self.new_plate7 = cv2.imread("new_plate7.png")
         self.new_plate8 = cv2.imread("new_plate8.png")
 
-        # loading Number black number
+        # loading Number black number(흰 바탕 검은 글씨)
         file_path = "./num/"
         file_list = os.listdir(file_path)
         self.Number = list()
@@ -67,7 +69,7 @@ class ImageGenerator:
             self.Number.append(img)
             self.number_list.append(file[0:-4])
 
-        #load reverse Number white number (위와 동일하지만 색 역전 시켰음. )
+        #load reverse Number white number (위와 동일하지만 색 역전 시켰음. ) 검은 바탕 흰 글씨
         file_path = "./num_r/"
         file_list = os.listdir(file_path)
         self.Number_r = list()
@@ -773,6 +775,7 @@ class ImageGenerator:
             label += self.number_list[rand_int]
             Plate[row:row + 95, col:col + 70, :] = number2[rand_int]
             Plate = image_augmentation(Plate)
+            Plate = cv2.bitwise_not(Plate)
             if save:
                 cv2.imwrite(self.save_path + label + "X.jpg", Plate)
             else:
@@ -841,6 +844,7 @@ class ImageGenerator:
             Plate[row:row + 90, col:col + 80, :] = number2[rand_int]
 
             Plate = image_augmentation(Plate)
+            Plate = cv2.bitwise_not(Plate)
 
             if save:
                 cv2.imwrite(self.save_path + label + "X.jpg", Plate)
@@ -994,7 +998,7 @@ A = ImageGenerator(img_dir)
 
 num_img = args.num
 Save = args.save
-
+'''
 A.Type_1(num_img, save=Save)
 print("Type 1 finish")
 A.Type_1_1(num_img, save=Save)
@@ -1017,11 +1021,11 @@ print("Type 4_1 finish")
 A.Type_5(num_img, save=Save)
 print("Type 5 finish")
 # Type 5 완료 2020.08.20.17:18
-
+'''
 A.Type_6(num_img, save=Save)
 print("Type 6 finish")
 # Type 6 수정 (조금 부족한듯) 2020.08.20 18:44
-
+'''
 A.Type_7(num_img, save=Save)
 print("Type 7 finish")
 # Type 7 완료 2020.08.20.17:56
@@ -1030,4 +1034,4 @@ print("Type 8 finish")
 # Type 8 완료 2020.08.20.18:28
 A.Type_8_1(num_img, save=Save)
 print("Type 8_1 finish")
-
+'''
